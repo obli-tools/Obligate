@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Theme tokens — RGB triplets so Tailwind's `bg-foo/30` opacity modifier emits
+   `rgb(var(--c-foo) / 0.3)`. IMPORTANT: hover/border/active backgrounds MUST
+   be real near-bg shades (not white-on-alpha) — Tailwind's `border-border`
+   resolves to `rgb(var(--c-border))` without auto-applying alpha, so any
+   white triplet here would render scrollbars + separators bright white.
+   Shared with the other Obli apps.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ── Obli Operator (default) — Oblihub deep-blue accent ───────────────────── */
+:root,
+[data-theme="obli-operator"] {
+  --c-bg-primary:            11 13 26;     /* #0b0d1a — page bg */
+  --c-bg-secondary:          15 18 32;     /* topbar + sidebar bg */
+  --c-bg-tertiary:           19 23 40;     /* card bg */
+  --c-bg-hover:              29 34 56;
+  --c-bg-active:             34 39 64;
+
+  --c-border:                42 48 72;     /* near-bg, not white */
+  --c-border-light:          62 70 100;
+
+  --c-text-primary:          240 244 252;  /* brighter scale */
+  --c-text-secondary:        180 188 215;
+  --c-text-muted:            130 140 175;
+
+  --c-status-up:             30 221 138;
+  --c-status-up-bg:          12 40 26;
+  --c-status-down:           107 115 153;
+  --c-status-down-bg:        24 28 48;
+  --c-status-pending:        79 123 255;
+  --c-status-pending-bg:     16 24 56;
+  --c-status-warning:        245 166 35;
+  --c-status-critical:       224 58 58;
+
+  /* Obligate brand accent — gold from the platform logo (#cda247). */
+  --c-accent:                203 162 71;   /* #cda247 main gold */
+  --c-accent-hover:          236 207 136;  /* #eccf88 light gold */
+  --c-accent-dark:           194 145 46;   /* #c2912e dark gold */
+  --c-accent-text:           15 23 42;     /* dark text on gold */
+  --c-primary:               203 162 71;
+
+  /* Per-app dot colors (used by the 5-app pill switcher in the topbar) */
+  --app-obliview:            #2bc4bd;
+  --app-obliguard:           #f5a623;
+  --app-oblimap:             #1edd8a;
+  --app-obliance:            #e03a3a;
+  --app-obliplan:            #7c6cff;
+  --app-oblihub:             #2d4ec9;
+
+  --shadow-card:  0 1px 0 0 rgba(255,255,255,0.03), 0 6px 24px -8px rgba(0,0,0,0.45);
+  --shadow-glow:  0 0 0 1px rgb(var(--c-accent) / 0.18) inset, 0 6px 28px -10px rgb(var(--c-accent) / 0.25);
+}
+
+/* No borders on cards in Obli Operator — depth via shadow + bg delta. */
+[data-theme="obli-operator"] body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Obli Daylight (light — Nordic Mist palette) ─────────────────────────── */
+/* Cushioned blue-gray "Snow Storm" surface (Nord-inspired) — less clinical */
+/* than pure white, softens glare, keeps the six brand accents readable.    */
+/* NOTE: hover/active/border MUST be plain RGB triplets (no `/ alpha` here) */
+/* — Tailwind wraps every color as `rgb(var(--x) / <alpha-value>)`. Storing */
+/* an alpha in the variable makes the emitted CSS invalid → rules dropped   */
+/* → the browser falls back to `border: initial` (thick black borders).    */
+[data-theme="obli-daylight"] {
+  --c-bg-primary:            229 233 240;   /* #e5e9f0 page bg */
+  --c-bg-secondary:          236 239 244;   /* #eceff4 cards */
+  --c-bg-tertiary:           216 222 233;   /* #d8dee9 input/toolbar */
+  --c-bg-hover:              222 227 236;
+  --c-bg-active:             210 217 229;
+
+  --c-border:                212 220 231;   /* subtle on Snow Storm bg */
+  --c-border-light:          224 230 240;
+
+  --c-text-primary:          46 52 64;      /* #2e3440 Polar Night */
+  --c-text-secondary:        76 86 106;     /* #4c566a */
+  --c-text-muted:            129 141 161;   /* #818da1 */
+
+  --c-status-up:             16 163 96;
+  --c-status-up-bg:          220 252 231;
+  --c-status-down:           148 163 184;
+  --c-status-down-bg:        216 222 233;
+  --c-status-pending:        37 99 235;
+  --c-status-warning:        217 119 6;
+  --c-status-critical:       220 38 38;
+
+  /* Obligate brand accent — gold from the platform logo (#cda247). */
+  --c-accent:                194 145 46;   /* #c2912e — darker gold for AA contrast on Snow Storm bg */
+  --c-accent-hover:          203 162 71;   /* #cda247 main gold on hover */
+  --c-accent-dark:           132 99 31;    /* #84631f deeper still */
+  --c-accent-text:           255 255 255;  /* white on darker gold */
+  --c-primary:               194 145 46;
+
+  /* Per-app dot colors (tuned for light bg — same identities as Operator) */
+  --app-obliview:            #0d9488;
+  --app-obliguard:           #d97706;
+  --app-oblimap:             #16a34a;
+  --app-obliance:            #dc2626;
+  --app-obliplan:            #6366f1;
+  --app-oblihub:             #2563eb;
+
+  --shadow-card:  0 1px 2px 0 rgba(15,23,42,0.04), 0 6px 24px -12px rgba(15,23,42,0.10);
+  --shadow-glow:  0 0 0 1px rgb(var(--c-accent) / 0.18) inset, 0 8px 32px -12px rgb(var(--c-accent) / 0.22);
+}
+[data-theme="obli-daylight"] body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Obli Dim ─────────────────────────────────────────────────────────────────
+   Dark companion of Obli Daylight: Nord "Polar Night" neutrals (mid-dark slate,
+   softer than Operator's near-black) so a second server can be told apart at a
+   glance without switching to a light theme. It is a DARK theme for every
+   light/dark decision (logo, native controls via color-scheme).
+   Dim changes NEUTRALS ONLY: the accent block below (Obligate gold) and the
+   per-app dot colours are copied verbatim from Obli Operator and must never
+   diverge from it.
+   Same rule as Daylight: every token is a plain RGB triplet (no alpha).
+   Status tokens keep the SEMANTICS of Operator / Daylight (and of the shared
+   catalog OBLI_DIM_THEME): status-down is the neutral offline slate there
+   (disabled apps, and also error text / the danger button), so it stays
+   neutral grey here — a red down would flip those states to red on Dim only;
+   status-critical is the red; status-pending = info (blue).
+   ───────────────────────────────────────────────────────────────────────────── */
+[data-theme="obli-dim"] {
+  color-scheme: dark;
+
+  --c-bg-primary:            46 52 64;      /* #2e3440  page */
+  --c-bg-secondary:          59 66 82;      /* #3b4252  cards / surfaces */
+  --c-bg-tertiary:           67 76 94;      /* #434c5e  inputs / pill containers */
+  --c-bg-hover:              70 80 99;      /* #465063  hover, one step above tertiary */
+  --c-bg-active:             74 84 104;     /* #4a5468  active / selected */
+
+  --c-border:                76 86 106;     /* #4c566a */
+  --c-border-light:          94 106 130;    /* #5e6a82 */
+
+  --c-text-primary:          236 239 244;   /* #eceff4 */
+  --c-text-secondary:        216 222 233;   /* #d8dee9 */
+  --c-text-muted:            163 171 188;   /* #a3abbc */
+
+  --c-status-up:             108 203 143;   /* #6ccb8f */
+  --c-status-up-bg:          47 74 61;      /* #2f4a3d */
+  --c-status-down:           138 147 166;   /* #8a93a6  offline / neutral, as in Operator */
+  --c-status-down-bg:        54 60 74;      /* #363c4a */
+  --c-status-pending:        136 166 224;   /* #88a6e0  info */
+  --c-status-pending-bg:     53 66 94;      /* #35425e */
+  --c-status-warning:        235 203 139;   /* #ebcb8b */
+  --c-status-critical:       255 107 107;   /* #ff6b6b */
+
+  /* Obligate brand accent — verbatim from Obli Operator (gold #cda247). */
+  --c-accent:                203 162 71;   /* #cda247 main gold */
+  --c-accent-hover:          236 207 136;  /* #eccf88 light gold */
+  --c-accent-dark:           194 145 46;   /* #c2912e dark gold */
+  --c-accent-text:           15 23 42;     /* dark text on gold */
+  --c-primary:               203 162 71;
+
+  /* Per-app dot colors — verbatim from Obli Operator (dark surface) */
+  --app-obliview:            #2bc4bd;
+  --app-obliguard:           #f5a623;
+  --app-oblimap:             #1edd8a;
+  --app-obliance:            #e03a3a;
+  --app-obliplan:            #7c6cff;
+  --app-oblihub:             #2d4ec9;
+
+  --shadow-card:  0 1px 0 0 rgba(255,255,255,0.03), 0 6px 20px -8px rgba(20,23,30,0.40);
+  --shadow-glow:  0 0 0 1px rgb(var(--c-accent) / 0.20) inset, 0 6px 26px -10px rgb(var(--c-accent) / 0.28);
+}
+
+/* Obli Dim chrome: topbar (Header <header>) + sidebar (AppLayout <aside>) one
+   step DARKER than the page (#282d37). Both use bg-bg-secondary, the card
+   token, and are the only <header>/<aside> elements of the app. */
+[data-theme="obli-dim"] header.bg-bg-secondary,
+[data-theme="obli-dim"] aside.bg-bg-secondary {
+  background-color: rgb(40 45 55);          /* #282d37 */
+}
+/* Obli Dim white-on-status-down fills (Button danger, AccountPage avatar-remove
+   badge): white on the #8a93a6 slate is only 3.1:1, so the fill takes
+   Operator's own danger slate #6b7399 (white 4.6:1, same button as Operator),
+   and #5e6a82 (white 5.4:1) while hovering the badge (hover:bg-status-down/80).
+   Text and tint uses of status-down are unchanged. */
+[data-theme="obli-dim"] .bg-status-down.text-white:not(:hover) {
+  background-color: rgb(107 115 153);
+}
+[data-theme="obli-dim"] .bg-status-down.text-white.hover\:bg-status-down\/80:hover {
+  background-color: rgb(94 106 130);
+}
+
+/* ── Modern UI (legacy) ───────────────────────────────────────────────────── */
+[data-theme="modern"] {
+  --c-bg-primary:            13 17 23;
+  --c-bg-secondary:          22 27 34;
+  --c-bg-tertiary:           28 35 51;
+  --c-bg-hover:              33 38 45;
+  --c-bg-active:             40 46 56;
+
+  --c-border:                48 54 61;
+  --c-border-light:          61 68 77;
+
+  --c-text-primary:          230 237 243;
+  --c-text-secondary:        139 148 158;
+  --c-text-muted:            110 118 129;
+
+  --c-status-up:             46 160 67;
+  --c-status-up-bg:          13 40 24;
+  --c-status-down:           248 81 73;
+  --c-status-down-bg:        61 20 24;
+
+  --c-accent:                205 163 73;
+  --c-accent-hover:          221 184 94;
+  --c-accent-dark:           176 137 48;
+  --c-accent-text:           255 255 255;
+  --c-primary:               205 163 73;
+}
+
+/* ── Neon UI (legacy) ─────────────────────────────────────────────────────── */
+[data-theme="neon"] {
+  --c-bg-primary:            7 8 10;
+  --c-bg-secondary:          13 14 17;
+  --c-bg-tertiary:           19 20 24;
+  --c-bg-hover:              27 27 32;
+  --c-bg-active:             36 36 42;
+
+  --c-border:                50 51 57;
+  --c-border-light:          65 66 73;
+
+  --c-text-primary:          240 234 226;
+  --c-text-secondary:        152 138 118;
+  --c-text-muted:            106 94 78;
+
+  --c-status-up:             56 189 248;
+  --c-status-up-bg:          4 20 32;
+  --c-status-down:           255 56 96;
+  --c-status-down-bg:        42 0 16;
+
+  --c-accent:                237 208 137;
+  --c-accent-hover:          245 224 170;
+  --c-accent-dark:           205 163 73;
+  --c-accent-text:           20 18 14;
+  --c-primary:               237 208 137;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  /* Reveal app — overrides the opacity:0 set in index.html to prevent FOUC */
+  #root { opacity: 1 !important; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { @apply bg-bg-primary; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-border-light; }
+}
+
+/* ── Neon glow extras (legacy) ────────────────────────────────────────────── */
+[data-theme="neon"] header { position: relative; border-bottom-color: transparent; }
+[data-theme="neon"] header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: radial-gradient(ellipse 70% 100% at 50% 100%, rgb(237 208 137 / 0.9) 0%, rgb(237 208 137 / 0.4) 40%, transparent 70%);
+  pointer-events: none;
+}
+[data-theme="neon"] .bg-bg-active {
+  background-color: rgb(237 208 137 / 0.1) !important;
+  box-shadow: inset 3px 0 0 rgb(237 208 137 / 1);
+}

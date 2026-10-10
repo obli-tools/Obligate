@@ -1,0 +1,84 @@
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets, keys, certificates (.env.example = template without secrets: kept)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+*.keystore
+*.pfx
+*.p12
+*.cer
+*.crt
+*.csr
+id_rsa*
+id_ed25519*
+
+# Logs, dumps, backups, captures, local data
+*.log
+**/*.log
+*.dmp
+*.bak
+*.orig
+*.pre-*
+*.tmp
+*.swp
+*~
+*.sqlite
+*.sqlite3
+*.db
+*.har
+*.pcap
+*.csv
+*.sql
+*.dump
+*.zip
+*.tar
+*.gz
+*.7z
+
+# ── Not part of the build: never versioned ──
+# Only what is needed to BUILD is versioned. Docs, notes, mockups and local
+# tooling scripts (.bat/.ps1…) stay out of the repository.
+# Local tool state, caches, scratch areas (never versioned; every hidden
+# folder is also caught by ".*/" below, every *.md by "*.md")
+.cache/
+.local*/
+scratch*/
+# Any other hidden folder (editor/tool caches, secrets): never versioned.
+.*/
+# Docs / notes / planning / mockups
+/docs/
+/docs-*/
+doc/
+/Mockups/
+mockup*.html
+*.md
+!/README.md
+*.markdown
+*.txt
+*.rtf
+*.docx
+*.pdf
+REPRISE*
+HANDOFF*
+NOTES*
+TODO*
+PLAN*
+custom/
+# Build / personal tooling scripts
+*.bat
+*.cmd
+*.ps1
+*.psm1

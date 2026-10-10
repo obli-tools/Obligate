@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obligate</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script>
+      // Apply saved theme immediately to prevent flash of wrong theme (FOUC)
+      try{var t=localStorage.getItem('og-theme');if(t==='neon'||t==='obli-operator'||t==='obli-daylight'||t==='obli-dim'||t==='modern')document.documentElement.dataset.theme=t;else document.documentElement.dataset.theme='obli-operator';}catch(e){document.documentElement.dataset.theme='obli-operator';}
+    </script>
+    <style>
+      /* Hide app until Tailwind CSS fully loads — prevents broken layout flash on external navigation */
+      body { background: #0b0d1a; margin: 0; }
+      [data-theme="modern"] body { background: #0d1117; }
+      [data-theme="neon"] body { background: #07080a; }
+      [data-theme="obli-daylight"] body { background: #e5e9f0; }
+      [data-theme="obli-dim"] body { background: #2e3440; }
+      #root { opacity: 0; transition: opacity .15s; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

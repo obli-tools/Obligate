@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: obligate
+      POSTGRES_USER: obligate
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U obligate"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3010
+      DATABASE_URL: postgres://obligate:${DB_PASSWORD:-changeme}@postgres:5432/obligate
+      SESSION_SECRET: ${SESSION_SECRET:-change-this-in-production}
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:-http://localhost}
+      DEFAULT_ADMIN_USERNAME: ${DEFAULT_ADMIN_USERNAME:-admin}
+      DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD:-admin123}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+      OAUTH_EXTRA_REDIRECT_ORIGINS: ${OAUTH_EXTRA_REDIRECT_ORIGINS:-}
+      OAUTH_LOOPBACK_APP_TYPES: ${OAUTH_LOOPBACK_APP_TYPES:-}
+      DELEGATION_ALLOW_ADMIN_SUBJECTS: ${DELEGATION_ALLOW_ADMIN_SUBJECTS:-}
+      OAUTH_LOT_O_CAPABILITIES: ${OAUTH_LOT_O_CAPABILITIES:-}
+      DELEGATION_APP_SUBJECT_PAIRS: ${DELEGATION_APP_SUBJECT_PAIRS:-}
+      DELEGATION_ALLOW_EXPOSED_KEYS: ${DELEGATION_ALLOW_EXPOSED_KEYS:-}
+      OAUTH_ACCEPT_RAW_CLIENT_ID: ${OAUTH_ACCEPT_RAW_CLIENT_ID:-}
+      INBOUND_SECRET_APP_TYPES: ${INBOUND_SECRET_APP_TYPES:-}
+
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      server:
+        condition: service_healthy
+    ports:
+      - "${LISTEN_PORT:-3020}:80"
+
+volumes:
+  postgres_data:
